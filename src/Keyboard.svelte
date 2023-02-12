@@ -7,8 +7,13 @@
   const handleKeyboard = (letter) => {
     dispatch('keyboard', {letter: letter});
   }
+
+  const handleKeydown = (e) => {
+    dispatch('keyboard', {letter: e.key})
+  }
 </script>
 
+<svelte:window on:keydown={handleKeydown}/>
 
 <div class="keyboard">
   {#each letters as letter}
