@@ -10,7 +10,7 @@
   }
 
   const handleKeydown = (e) => {
-    if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 97 && e.keyCode <= 122) || (e.keyCode === 8) || e.keyCode === 13)
+    if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode === 8) || e.keyCode === 13)
       dispatch('keyboard', {letter: e.key})
   }
 </script>
