@@ -2,14 +2,16 @@
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
-  const letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '/', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '/', 'Delete', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Enter'];
+  const letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '/', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '/',
+   'Backspace', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Enter'];
   
   const handleKeyboard = (letter) => {
     dispatch('keyboard', {letter: letter});
   }
 
   const handleKeydown = (e) => {
-    dispatch('keyboard', {letter: e.key})
+    if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode >= 97 && e.keyCode <= 122) || (e.keyCode === 8) || e.keyCode === 13)
+      dispatch('keyboard', {letter: e.key})
   }
 </script>
 
@@ -18,7 +20,7 @@
 <div class="keyboard">
   {#each letters as letter}
     {#if letter !== '/'}
-      <button class:special="{letter === 'Delete' || letter === 'Enter'}" on:click={() => handleKeyboard(letter)}>{letter}</button>
+      <button class:special="{letter === 'Backspace' || letter === 'Enter'}" on:click={() => handleKeyboard(letter)}>{letter}</button>
     {:else}
       <br />
     {/if}
@@ -41,6 +43,6 @@
   }
 
   .special {
-    width: 100px;
+    width: 130px;
   }
 </style>
