@@ -1,8 +1,30 @@
 <script lang="ts">
     export let rows: number;
     export let cols: number;
-    export let currentRow: number;
     export let currentWord: string;
+    export let randomWord: string;
+
+    let currentRow = 0;
+    let toggleCheck = new Array(5 - currentWord.length).fill(false);
+    let wordPerRow = [];
+
+    export const handleEnter = () => {
+      wordPerRow.push(currentWord);
+      $: toggleCheck[currentRow] = true;
+      currentRow++;
+    }
+
+    const compareLetter = (row_index, col_index) => {
+      console.log(wordPerRow[row_index][col_index], randomWord[col_index]);
+
+      if (wordPerRow[row_index][col_index] === randomWord[col_index])
+        return 'correct';
+      else if (randomWord.includes(wordPerRow[row_index][col_index]))
+        return 'misplaced';
+      else
+        return 'incorrect';
+    }
+  
 
     let list: string[][] = [];
     for (let i = 0; i < rows; i++) {
@@ -19,13 +41,17 @@
 
 <div class="display">
   <table>
-    {#each list as row}
+    {#each list as row, row_index}
       <tr>
-        {#each row as letter}
+        {#each row as letter, col_index}
           {#if letter == ''}
             <td>&nbsp;</td>
           {:else}
-            <td>{letter}</td>
+            {#if toggleCheck[row_index]}
+              <td class="{compareLetter(row_index, col_index)}">{letter}</td>
+            {:else}
+              <td>{letter}</td>
+            {/if}
           {/if}
         {/each}
       </tr>

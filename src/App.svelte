@@ -5,7 +5,8 @@
 
 	const url = 'https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/ca9018b32e963292473841fb55fd5a62176769b5/valid-wordle-words.txt';
 	let wordInput = '';
-	let currentRow = 0;
+	let randomWord = '';
+	let dispComp;
 
 	const fetchRandomWord = async () => {
 		let response = await fetch(url);
@@ -29,7 +30,8 @@
 		}
 		else if (letter === 'Enter'){
 			if(wordInput.length === 5){
-				console.log('submitted');
+				wordInput = '';
+				dispComp.handleEnter();
 			}
 		}
 		else {
@@ -38,21 +40,24 @@
 		}
 	}
 
-	let x:string = 'Loading...';
-
 	const main = async() => {
-		x = await fetchRandomWord();
+		randomWord = await fetchRandomWord();
+		randomWord = randomWord.toUpperCase()
+		console.log(randomWord);
 	}
-
-	
-	main();
 </script>
 
-<Header title="Wordle"/>
+
+<Header title="Georgina's Wordle"/>
 <main>
-	<Display rows={6} cols={5} currentRow={currentRow} currentWord={wordInput}/>
-	<Keyboard on:keyboard={handleKeyInput}/>
+	{#await main()}
+		<p>Loading...</p>
+	{:then value} 
+		<Display rows={6} cols={5} currentWord={wordInput} randomWord={randomWord} bind:this={dispComp}/>
+		<Keyboard on:keyboard={handleKeyInput}/>
+	{/await}
 </main>
+
 
 <style>
 	main {
