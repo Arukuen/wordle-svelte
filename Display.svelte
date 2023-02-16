@@ -8,14 +8,17 @@
     let currentRow = 0;
     let toggleCheck = new Array(5 - currentWord.length).fill(false);
     let wordPerRow = [];
+    
 
     export const handleEnter = () => {
-      wordPerRow.push(currentWord);
       $: toggleCheck[currentRow] = true;
+      wordPerRow.push(currentWord);
       currentRow++;
 
-      if (currentWord == randomWord)
+      if (currentWord == randomWord || currentRow >= rows){
         isDone = true;
+        return;
+      }
     }
 
     const compareLetter = (row_index, col_index) => {
@@ -37,7 +40,10 @@
       list.push(temp);
     }
 
-    $: list[currentRow] = [...currentWord, ...new Array(5 - currentWord.length).fill('')];
+    $:{
+    if (!isDone)
+      list[currentRow] = [...currentWord, ...new Array(5 - currentWord.length).fill('')];
+    }
 </script>
 
 
