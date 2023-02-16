@@ -3,6 +3,7 @@
     export let cols: number;
     export let currentWord: string;
     export let randomWord: string;
+    export let isDone = false;
 
     let currentRow = 0;
     let toggleCheck = new Array(5 - currentWord.length).fill(false);
@@ -12,11 +13,12 @@
       wordPerRow.push(currentWord);
       $: toggleCheck[currentRow] = true;
       currentRow++;
+
+      if (currentWord == randomWord)
+        isDone = true;
     }
 
     const compareLetter = (row_index, col_index) => {
-      console.log(wordPerRow[row_index][col_index], randomWord[col_index]);
-
       if (wordPerRow[row_index][col_index] === randomWord[col_index])
         return 'correct';
       else if (randomWord.includes(wordPerRow[row_index][col_index]))

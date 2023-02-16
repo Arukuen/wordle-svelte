@@ -1,15 +1,21 @@
 <script>
   import { createEventDispatcher } from 'svelte';
 
+  export let disabled = false;
+
   const dispatch = createEventDispatcher();
   const letters = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '/', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '/',
    'Backspace', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Enter'];
   
   const handleKeyboard = (letter) => {
+    if (disabled)
+      return;
     dispatch('keyboard', {letter: letter});
   }
 
   const handleKeydown = (e) => {
+    if (disabled)
+      return;
     if ((e.keyCode >= 65 && e.keyCode <= 90) || (e.keyCode === 8) || e.keyCode === 13)
       dispatch('keyboard', {letter: e.key})
   }

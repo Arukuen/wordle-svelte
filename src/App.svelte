@@ -3,10 +3,12 @@
 	import Display from "../Display.svelte";
 	import Header from "./Header.svelte";
 
-	const url = 'https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/ca9018b32e963292473841fb55fd5a62176769b5/valid-wordle-words.txt';
+	const url = 'https://gist.githubusercontent.com/shmookey/b28e342e1b1756c4700f42f17102c2ff/raw/ed4c33a168027aa1e448c579c8383fe20a3a6225/WORDS';
 	let wordInput = '';
 	let randomWord = '';
-	let dispComp;
+	let handleEnter;
+	let isDone = false;
+
 
 	const fetchRandomWord = async () => {
 		let response = await fetch(url);
@@ -31,7 +33,7 @@
 		else if (letter === 'Enter'){
 			if(wordInput.length === 5){
 				wordInput = '';
-				dispComp.handleEnter();
+				handleEnter();
 			}
 		}
 		else {
@@ -48,13 +50,13 @@
 </script>
 
 
-<Header title="Georgina's Wordle"/>
+<Header title="Woooooooordle"/>
 <main>
 	{#await main()}
 		<p>Loading...</p>
 	{:then value} 
-		<Display rows={6} cols={5} currentWord={wordInput} randomWord={randomWord} bind:this={dispComp}/>
-		<Keyboard on:keyboard={handleKeyInput}/>
+		<Display rows={6} cols={5} currentWord={wordInput} randomWord={randomWord} bind:handleEnter={handleEnter} bind:isDone={isDone}/>
+		<Keyboard on:keyboard={handleKeyInput} disabled={isDone}/>
 	{/await}
 </main>
 
