@@ -2,13 +2,19 @@
 	import Keyboard from "./Keyboard.svelte";
 	import Display from "../Display.svelte";
 	import Header from "./Header.svelte";
+	import Modal from "./Modal.svelte";
 
 	const url = 'https://gist.githubusercontent.com/shmookey/b28e342e1b1756c4700f42f17102c2ff/raw/ed4c33a168027aa1e448c579c8383fe20a3a6225/WORDS';
 	let wordInput = '';
 	let randomWord = '';
 	let handleEnter;
 	let isDone = false;
+	let showModal = false;
+	let isWinner = false;
+	let message = '';
 
+	$: if (isDone) toggleModal();
+	$: message = isWinner ? 'You win' : 'You lose';
 
 	const fetchRandomWord = async () => {
 		let response = await fetch(url);
@@ -42,6 +48,10 @@
 		}
 	}
 
+	const toggleModal = () => {
+		showModal = !showModal;
+	}
+
 	const main = async() => {
 		randomWord = await fetchRandomWord();
 		randomWord = randomWord.toUpperCase()
@@ -51,11 +61,12 @@
 
 
 <Header title="Woooooooordle"/>
+<Modal message={message} showModal={showModal} isWinner={isWinner} on:mousedown={toggleModal}/>
 <main>
 	{#await main()}
 		<p>Loading...</p>
 	{:then value} 
-		<Display rows={6} cols={5} currentWord={wordInput} randomWord={randomWord} bind:handleEnter={handleEnter} bind:isDone={isDone}/>
+		<Display rows={6} cols={5} currentWord={wordInput} randomWord={randomWord} bind:handleEnter={handleEnter} bind:isDone={isDone} bind:isWinner={isWinner}/>
 		<Keyboard on:keyboard={handleKeyInput} disabled={isDone}/>
 	{/await}
 </main>

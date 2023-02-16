@@ -4,6 +4,7 @@
     export let currentWord: string;
     export let randomWord: string;
     export let isDone = false;
+    export let isWinner = false;
 
     let currentRow = 0;
     let toggleCheck = new Array(5 - currentWord.length).fill(false);
@@ -15,9 +16,12 @@
       wordPerRow.push(currentWord);
       currentRow++;
 
-      if (currentWord == randomWord || currentRow >= rows){
+      if (currentWord == randomWord){
         isDone = true;
-        return;
+        isWinner = true;
+      }
+      if (currentRow >= rows) {
+        isDone = true;
       }
     }
 
