@@ -7,7 +7,7 @@
     export let isWinner = false;
 
     let currentRow = 0;
-    let toggleCheck = new Array(5 - currentWord.length).fill(false);
+    let toggleCheck = new Array(cols - currentWord.length).fill(false);
     let wordPerRow = [];
     
 
@@ -46,7 +46,7 @@
 
     $:{
     if (!isDone)
-      list[currentRow] = [...currentWord, ...new Array(5 - currentWord.length).fill('')];
+      list[currentRow] = [...currentWord, ...new Array(cols - currentWord.length).fill('')];
     }
 </script>
 
