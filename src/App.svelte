@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Keyboard from "./Keyboard.svelte";
-	import Display from "../Display.svelte";
+	import Display from "./Display.svelte";
 	import Header from "./Header.svelte";
 	import Modal from "./Modal.svelte";
 
